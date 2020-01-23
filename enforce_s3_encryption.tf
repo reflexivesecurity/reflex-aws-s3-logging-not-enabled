@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "enforce_s3_encryption" {
-  source           = "github.com/cloudmitigator/reflex/modules/cwe_lambda"
+  source           = "git@github.com:cloudmitigator/reflex/modules/cwe_lambda"
   rule_name        = "EnforceS3Encryption"
   rule_description = "Rule to enforce S3 bucket encryption"
 
