@@ -1,11 +1,10 @@
 """ Module for enforcing S3EncryptionRule """
 
-import os
 import json
+import os
 
 import boto3
-
-from aws_rule import AWSRule
+from reflex_core import AWSRule
 
 
 class S3EncryptionRule(AWSRule):
@@ -54,5 +53,5 @@ class S3EncryptionRule(AWSRule):
 def lambda_handler(event, _):
     """ Handles the incoming event """
     print(event)
-    s3_rule = S3EncryptionRule(json.loads(event['Records'][0]['body']))
+    s3_rule = S3EncryptionRule(json.loads(event["Records"][0]["body"]))
     s3_rule.run_compliance_rule()
