@@ -2,9 +2,9 @@ provider "aws" {
   region = "us-east-1"
 }
 
-module "enforce_s3_encryption" {
+module "detect_s3_logging_not_enabled" {
   source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda"
-  rule_name        = "EnforceS3Encryption"
+  rule_name        = "DetectS3LoggingNotEnabled"
   rule_description = "Rule to enforce S3 bucket encryption"
 
   event_pattern = <<PATTERN
@@ -27,11 +27,11 @@ module "enforce_s3_encryption" {
 }
 PATTERN
 
-  function_name            = "EnforceS3Encryption"
+  function_name            = "DetectS3LoggingNotEnabled"
   source_code_dir          = "${path.module}/source"
   handler                  = "s3_encryption.lambda_handler"
   lambda_runtime           = "python3.7"
-  environment_variable_map = { SNS_TOPIC = "EnforceS3Encryption" }
+  environment_variable_map = { SNS_TOPIC = "DetectS3LoggingNotEnabled" }
   custom_lambda_policy     = <<EOF
 {
   "Version": "2012-10-17",
@@ -50,11 +50,11 @@ EOF
 
 
 
-  queue_name    = "EnforceS3Encryption"
+  queue_name    = "DetectS3LoggingNotEnabled"
   delay_seconds = 60
 
-  target_id = "EnforceS3Encryption"
+  target_id = "DetectS3LoggingNotEnabled"
 
-  topic_name = "EnforceS3Encryption"
+  topic_name = "DetectS3LoggingNotEnabled"
   email      = var.email
 }
