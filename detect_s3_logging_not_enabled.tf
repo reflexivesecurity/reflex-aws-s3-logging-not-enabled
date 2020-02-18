@@ -5,7 +5,7 @@ provider "aws" {
 module "detect_s3_logging_not_enabled" {
   source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda"
   rule_name        = "DetectS3LoggingNotEnabled"
-  rule_description = "Rule to enforce S3 bucket encryption"
+  rule_description = "Rule to enforce S3 bucket logging"
 
   event_pattern = <<PATTERN
 {
