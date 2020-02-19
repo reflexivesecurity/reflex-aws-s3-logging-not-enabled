@@ -1,11 +1,13 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_s3_bucket" "log_bucket" {
-  bucket        = "reflex-aws-detect-s3-logging-not-enabled-compliant-log"
+  bucket        = "${data.aws_caller_identity.current.account_id}-s3-log"
   acl           = "log-delivery-write"
   force_destroy = true
 }
 
 resource "aws_s3_bucket" "complaint" {
-  bucket        = "reflex-aws-detect-s3-logging-not-enabled-compliant"
+  bucket        = "${data.aws_caller_identity.current.account_id}-s3-src"
   acl           = "private"
   force_destroy = true
 
@@ -14,4 +16,3 @@ resource "aws_s3_bucket" "complaint" {
     target_prefix = "log/"
   }
 }
-
