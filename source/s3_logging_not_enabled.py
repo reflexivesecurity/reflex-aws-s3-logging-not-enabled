@@ -1,4 +1,4 @@
-""" Module for enforcing S3EncryptionRule """
+""" Module for enforcing S3LoggingRule """
 
 import json
 import os
@@ -7,8 +7,8 @@ import boto3
 from reflex_core import AWSRule
 
 
-class S3EncryptionRule(AWSRule):
-    """ AWS rule for ensuring S3 bucket encryption """
+class S3LoggingRule(AWSRule):
+    """ AWS rule for ensuring S3 bucket logging is enabled """
 
     client = boto3.client("s3")
 
@@ -21,37 +21,33 @@ class S3EncryptionRule(AWSRule):
         self.bucket_name = event["detail"]["requestParameters"]["bucketName"]
 
     def resource_compliant(self):
-        return self.bucket_encrypted()
+        return self.bucket_logging()
 
-    def remediate(self):
-        self.encrypt_bucket()
+    def bucket_logging(self):
+        """
+        Returns True if the bucket has LoggingEnabled, False otherwise
 
-    def bucket_encrypted(self):
-        """ Returns True if the bucket is encrypted, False otherwise """
+        Does NOT inspect TargetBucket, TargetGrants, or TargetPrefix
+        """
         try:
-            self.client.get_bucket_encryption(Bucket=self.bucket_name)
-            return True
+            response = self.client.get_bucket_logging(Bucket=self.bucket_name)
+            if ("LoggingEnabled" in response):
+                return True
+            else:
+                return False
         except Exception:
             return False
 
-    def encrypt_bucket(self):
-        """ Encrypt the S3 bucket """
-        self.client.put_bucket_encryption(
-            Bucket=self.bucket_name,
-            ServerSideEncryptionConfiguration={
-                "Rules": [
-                    {"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}},
-                ]
-            },
-        )
-
     def get_remediation_message(self):
-        """ Returns a message about the remediation action that occurred """
-        return f"The S3 bucket {self.bucket_name} was unencrypted. AES-256 encryption was enabled."
-
+        if self.is_compliant is True:
+            return f"Bucket has logging enabled. Bucket: {self.bucket_name}"
+        else:
+            return f"Bucket does not have logging enabled." \
+                   f" bucket: {self.raw_event}," \
+                   f" event: {self.raw_event}"
 
 def lambda_handler(event, _):
     """ Handles the incoming event """
     print(event)
-    s3_rule = S3EncryptionRule(json.loads(event["Records"][0]["body"]))
+    s3_rule = S3LoggingRule(json.loads(event["Records"][0]["body"]))
     s3_rule.run_compliance_rule()

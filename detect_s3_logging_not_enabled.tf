@@ -21,7 +21,7 @@ module "detect_s3_logging_not_enabled" {
     ],
     "eventName": [
       "CreateBucket",
-      "DeleteBucketEncryption"
+      "PutBucketLogging"
     ]
   }
 }
