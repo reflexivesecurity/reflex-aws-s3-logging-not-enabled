@@ -20,8 +20,7 @@ module "detect_s3_logging_not_enabled" {
       "s3.amazonaws.com"
     ],
     "eventName": [
-      "CreateBucket",
-      "PutBucketLogging"
+      "CreateBucket"
     ]
   }
 }
@@ -38,7 +37,7 @@ PATTERN
   "Statement": [
     {
       "Action": [
-        "s3:GetBucketLogging",
+        "s3:GetBucketLogging"
       ],
       "Effect": "Allow",
       "Resource": "*"
