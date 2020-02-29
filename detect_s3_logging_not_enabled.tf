@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "detect_s3_logging_not_enabled" {
-  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda"
+  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.2.0"
   rule_name        = "DetectS3LoggingNotEnabled"
   rule_description = "Rule to enforce S3 bucket logging"
 
@@ -30,7 +30,7 @@ PATTERN
   source_code_dir          = "${path.module}/source"
   handler                  = "s3_logging_not_enabled.lambda_handler"
   lambda_runtime           = "python3.7"
-  environment_variable_map = { SNS_TOPIC = module.detect_s3_logging_not_enabled.sns_topic_arn }
+  environment_variable_map = { SNS_TOPIC = var.sns_topic_arn }
   custom_lambda_policy     = <<EOF
 {
   "Version": "2012-10-17",
@@ -53,6 +53,5 @@ EOF
 
   target_id = "DetectS3LoggingNotEnabled"
 
-  topic_name = "DetectS3LoggingNotEnabled"
-  email      = var.email
+  sns_topic_arn = var.sns_topic_arn
 }
