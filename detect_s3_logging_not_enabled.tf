@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "detect_s3_logging_not_enabled" {
-  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.2.0"
+  source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.3.0"
   rule_name        = "DetectS3LoggingNotEnabled"
   rule_description = "Rule to enforce S3 bucket logging"
 
@@ -54,4 +54,5 @@ EOF
   target_id = "DetectS3LoggingNotEnabled"
 
   sns_topic_arn = var.sns_topic_arn
+  sqs_kms_key_id = var.reflex_kms_key_id
 }
