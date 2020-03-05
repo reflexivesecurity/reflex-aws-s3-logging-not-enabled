@@ -1,4 +1,4 @@
-# reflex-aws-s3-encryption-not-enabled
+# reflex-aws-s3-logging-not-enabled
 
 A Reflex rule for detecting when a bucket is created without bucket-level logging enabled.
 
@@ -13,7 +13,7 @@ providers:
   - aws
 
 measures:
-  - aws-enforce-s3-encryption:
+  - aws-enforce-s3-logging:
       email: "example@example.com"
 ```
 
@@ -22,7 +22,7 @@ or add it directly to your Terraform:
 ```terraform
 ...
 
-module "enforce-s3-encryption" {
+module "enforce-s3-logging" {
   source           = "github.com/cloudmitigator/reflex-aws-s3-logging-not-enabled"
   email            = "example@example.com"
 }
