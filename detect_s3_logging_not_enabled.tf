@@ -1,7 +1,3 @@
-provider "aws" {
-  region = "us-east-1"
-}
-
 module "detect_s3_logging_not_enabled" {
   source           = "git@github.com:cloudmitigator/reflex.git//modules/cwe_lambda?ref=v0.3.0"
   rule_name        = "DetectS3LoggingNotEnabled"
@@ -20,7 +16,8 @@ module "detect_s3_logging_not_enabled" {
       "s3.amazonaws.com"
     ],
     "eventName": [
-      "CreateBucket"
+      "CreateBucket",
+      "PutBucketLogging"
     ]
   }
 }
@@ -53,6 +50,6 @@ EOF
 
   target_id = "DetectS3LoggingNotEnabled"
 
-  sns_topic_arn = var.sns_topic_arn
+  sns_topic_arn  = var.sns_topic_arn
   sqs_kms_key_id = var.reflex_kms_key_id
 }
