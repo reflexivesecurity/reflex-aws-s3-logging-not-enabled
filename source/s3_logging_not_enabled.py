@@ -15,9 +15,6 @@ class S3LoggingRule(AWSRule):
     def __init__(self, event):
         super().__init__(event)
 
-    def remediate(self):
-        pass
-
     def extract_event_data(self, event):
         """ To be implemented by every rule """
         self.raw_event = event
