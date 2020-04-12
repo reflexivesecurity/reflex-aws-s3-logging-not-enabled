@@ -1,4 +1,4 @@
-# reflex-aws-detect-s3-logging-not-enabled
+# reflex-aws-s3-logging-not-enabled
 A Reflex rule for detecting when a bucket is created without bucket-level logging enabled.
 
 To learn more about S3 Bucket logging, see [the AWS Documentation](https://docs.aws.amazon.com/AmazonS3/latest/dev/ServerLogs.html).
@@ -18,7 +18,7 @@ rules:
 or add it directly to your Terraform:
 ```terraform
 module "detect-s3-logging-not-enabled" {
-  source            = "git::https://github.com/cloudmitigator/reflex-aws-detect-s3-logging-not-enabled.git?ref=latest"
+  source            = "git::https://github.com/cloudmitigator/reflex-aws-s3-logging-not-enabled.git?ref=latest"
   sns_topic_arn     = module.central-sns-topic.arn
   reflex_kms_key_id = module.reflex-kms-key.key_id
 }
