@@ -1,4 +1,4 @@
-module "detect_s3_logging_not_enabled" {
+module "s3_logging_not_enabled" {
   source           = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/cwe_lambda?ref=v0.5.7"
   rule_name        = "DetectS3LoggingNotEnabled"
   rule_description = "Rule to enforce S3 bucket logging"
