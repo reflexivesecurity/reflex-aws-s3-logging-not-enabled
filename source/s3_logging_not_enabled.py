@@ -1,4 +1,4 @@
-""" Module for enforcing S3LoggingRule """
+""" Module for enforcing S3LoggingNotEnabled """
 
 import json
 import os
@@ -7,7 +7,7 @@ import boto3
 from reflex_core import AWSRule
 
 
-class S3LoggingRule(AWSRule):
+class S3LoggingNotEnabled(AWSRule):
     """ AWS rule for ensuring S3 bucket logging is enabled """
 
     client = boto3.client("s3")
@@ -49,5 +49,5 @@ class S3LoggingRule(AWSRule):
 def lambda_handler(event, _):
     """ Handles the incoming event """
     print(event)
-    s3_rule = S3LoggingRule(json.loads(event["Records"][0]["body"]))
+    s3_rule = S3LoggingNotEnabled(json.loads(event["Records"][0]["body"]))
     s3_rule.run_compliance_rule()
