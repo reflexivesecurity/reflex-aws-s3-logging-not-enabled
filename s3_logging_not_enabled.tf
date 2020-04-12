@@ -1,6 +1,6 @@
 module "s3_logging_not_enabled" {
   source           = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/cwe_lambda?ref=v0.5.7"
-  rule_name        = "DetectS3LoggingNotEnabled"
+  rule_name        = "S3LoggingNotEnabled"
   rule_description = "Rule to enforce S3 bucket logging"
 
   event_pattern = <<PATTERN
@@ -23,7 +23,7 @@ module "s3_logging_not_enabled" {
 }
 PATTERN
 
-  function_name            = "DetectS3LoggingNotEnabled"
+  function_name            = "S3LoggingNotEnabled"
   source_code_dir          = "${path.module}/source"
   handler                  = "s3_logging_not_enabled.lambda_handler"
   lambda_runtime           = "python3.7"
@@ -45,10 +45,10 @@ EOF
 
 
 
-  queue_name    = "DetectS3LoggingNotEnabled"
+  queue_name    = "S3LoggingNotEnabled"
   delay_seconds = 60
 
-  target_id = "DetectS3LoggingNotEnabled"
+  target_id = "S3LoggingNotEnabled"
 
   sns_topic_arn  = var.sns_topic_arn
   sqs_kms_key_id = var.reflex_kms_key_id
