@@ -31,20 +31,14 @@ class S3LoggingNotEnabled(AWSRule):
         """
         try:
             response = self.client.get_bucket_logging(Bucket=self.bucket_name)
-            if ("LoggingEnabled" in response):
+            if "LoggingEnabled" in response:
                 return True
-            else:
-                return False
+            return False
         except Exception:
             return False
 
     def get_remediation_message(self):
-        if self.resource_compliant() is True:
-            return f"Bucket has logging enabled. Bucket: {self.bucket_name}"
-        else:
-            return f"Bucket does not have logging enabled." \
-                   f" bucket: {self.raw_event}," \
-                   f" event: {self.raw_event}"
+        return f"Bucket {self.bucket_name} does not have logging enabled."
 
 def lambda_handler(event, _):
     """ Handles the incoming event """
