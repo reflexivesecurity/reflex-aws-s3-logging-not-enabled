@@ -1,28 +1,7 @@
-module "s3_logging_not_enabled" {
-  source           = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/cwe_lambda?ref=v0.5.7"
-  rule_name        = "S3LoggingNotEnabled"
-  rule_description = "Rule to enforce S3 bucket logging"
-
-  event_pattern = <<PATTERN
-{
-  "detail-type": [
-    "AWS API Call via CloudTrail"
-  ],
-  "source": [
-    "aws.s3"
-  ],
-  "detail": {
-    "eventSource": [
-      "s3.amazonaws.com"
-    ],
-    "eventName": [
-      "CreateBucket",
-      "PutBucketLogging"
-    ]
-  }
-}
-PATTERN
-
+module "sqs_lambda" {
+  source = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/sqs_lambda?ref=v0.6.0"
+  cloudwatch_event_rule_id  = var.cloudwatch_event_rule_id
+  cloudwatch_event_rule_arn = var.cloudwatch_event_rule_arn
   function_name            = "S3LoggingNotEnabled"
   source_code_dir          = "${path.module}/source"
   handler                  = "s3_logging_not_enabled.lambda_handler"
