@@ -1,13 +1,13 @@
 module "sqs_lambda" {
-  source = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/sqs_lambda?ref=v1.0.0"
+  source                    = "git::https://github.com/cloudmitigator/reflex-engine.git//modules/sqs_lambda?ref=v2.0.0"
   cloudwatch_event_rule_id  = var.cloudwatch_event_rule_id
   cloudwatch_event_rule_arn = var.cloudwatch_event_rule_arn
-  function_name            = "S3LoggingNotEnabled"
-  source_code_dir          = "${path.module}/../../source"
-  handler                  = "s3_logging_not_enabled.lambda_handler"
-  lambda_runtime           = "python3.7"
-  environment_variable_map = { SNS_TOPIC = var.sns_topic_arn }
-  custom_lambda_policy     = <<EOF
+  function_name             = "S3LoggingNotEnabled"
+  package_location          = var.package_location
+  handler                   = "s3_logging_not_enabled.lambda_handler"
+  lambda_runtime            = "python3.7"
+  environment_variable_map  = { SNS_TOPIC = var.sns_topic_arn }
+  custom_lambda_policy      = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
