@@ -16,6 +16,7 @@ module "assume_role" {
     }
   ]
 }
-EOF  lambda_execution_role_arn = "arn:aws:iam::${var.parent_account}:role/ReflexS3LoggingNotEnabledLambdaExecution"
+EOF  
+  lambda_execution_role_arn = "arn:aws:iam::${var.parent_account}:role/ReflexS3LoggingNotEnabledLambdaExecution"
 
 }
